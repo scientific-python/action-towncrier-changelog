@@ -14,7 +14,7 @@ RUN apt-get update \
     && python3 -m pip install --upgrade wheel \
     && python3 -m pip install PyGithub \
     && python3 -m pip install toml \
-    && python3 -m pip install "towncrier<19.2"
+    && python3 -m pip install "towncrier==19.1"
 
 # Copies code file action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
