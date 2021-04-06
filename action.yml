@@ -1,0 +1,7 @@
+name: 'Check change log'
+description: 'Check if towncrier change log is correct.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+  - 'none'
