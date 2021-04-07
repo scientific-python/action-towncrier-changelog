@@ -24,7 +24,9 @@ basereponame = event['pull_request']['base']['repo']['full_name']
 g = Github(os.environ.get('GITHUB_TOKEN'))
 
 # Grab config from upstream's default branch
-print(f'Base repository is {basereponame}')
+print(f'Bot username: {bot_username}')
+print(f'Base repository: {basereponame}')
+print()
 baserepo = g.get_repo(basereponame)
 pyproject_toml = baserepo.get_contents('pyproject.toml')
 toml_cfg = loads(pyproject_toml.decoded_content.decode('utf-8'))
@@ -41,6 +43,9 @@ if not cl_config.get('enabled', False):
 
 skip_label = cl_config.get('changelog_skip_label', None)
 pr_labels = [e['name'] for e in event['pull_request']['labels']]
+
+print(f'PR labels: {pr_labels}')
+print()
 
 if skip_label and skip_label in pr_labels:
     print(f'Skipping towncrier changelog plugin because "{skip_label}" '
