@@ -47,11 +47,6 @@ pr_labels = [e['name'] for e in event['pull_request']['labels']]
 print(f'PR labels: {pr_labels}')
 print()
 
-if skip_label and skip_label in pr_labels:
-    print(f'Skipping towncrier changelog plugin because "{skip_label}" '
-          'label is set')
-    sys.exit(0)
-
 _start_string = u".. towncrier release notes start\n"
 _title_format = None
 _template_fname = "towncrier:default"
@@ -187,6 +182,15 @@ modified_files = [f.filename for f in pr.get_files()]
 section_dirs = calculate_fragment_paths(config)
 types = config['types'].keys()
 matching_file = check_sections(modified_files, section_dirs)
+
+if skip_label and skip_label in pr_labels:
+    if matching_file:
+        print(f'Changelog exists when "{skip_label}" label is set')
+        sys.exit(1)
+    else:
+        print(f'Skipping towncrier changelog check because "{skip_label}" '
+              'label is set')
+        sys.exit(0)
 
 if not matching_file:
     print('No changelog file was added in the correct directories for '
