@@ -42,10 +42,17 @@ if not cl_config.get('enabled', False):
     sys.exit(0)
 
 skip_label = cl_config.get('changelog_skip_label', None)
+noop_label = cl_config.get('changelog_noop_label', None)
 pr_labels = [e['name'] for e in event['pull_request']['labels']]
 
 print(f'PR labels: {pr_labels}')
 print()
+
+# Really, really skip it.
+if noop_label in pr_labels:
+    print(f'Skipping towncrier changelog check because "{noop_label}" '
+          'label is set')
+    sys.exit(0)
 
 _start_string = u".. towncrier release notes start\n"
 _title_format = None
