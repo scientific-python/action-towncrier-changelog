@@ -41,6 +41,12 @@ if not cl_config.get('enabled', False):
     print('Skipping towncrier changelog plugin as disabled in config')
     sys.exit(0)
 
+# Skip check if it is the backport bot
+pr_author = event['pull_request']['user']['login']
+if pr_author == 'meeseeksmachine':
+    print(f'Skipping towncrier changelog check for backport bot "{pr_author}"')
+    sys.exit(0)
+
 skip_label = cl_config.get('changelog_skip_label', None)
 noop_label = cl_config.get('changelog_noop_label', 'skip-changelog-checks')
 pr_labels = [e['name'] for e in event['pull_request']['labels']]
