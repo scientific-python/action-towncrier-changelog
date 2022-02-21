@@ -202,7 +202,7 @@ matching_file = check_sections(modified_files, section_dirs)
 
 # Piggyback What's New entry check here.
 if whatsnew_label in pr_labels:
-    whatsnew_matches = re.findall(whatsnew_pattern, '|'.join(modified_filenames))
+    whatsnew_matches = re.findall(whatsnew_pattern, '|'.join(modified_files))
     n_whatsnew_matches = len(whatsnew_matches)
     if n_whatsnew_matches == 0:
         print(f'"{whatsnew_label}" present but no What\'s New entry; please add one.')
