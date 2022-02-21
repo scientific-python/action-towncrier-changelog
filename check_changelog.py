@@ -51,6 +51,10 @@ skip_label = cl_config.get('changelog_skip_label', None)
 noop_label = cl_config.get('changelog_noop_label', 'skip-changelog-checks')
 pr_labels = [e['name'] for e in event['pull_request']['labels']]
 
+# Piggyback What's New entry check here.
+whatsnew_label = cl_config.get('whatsnew_label', 'whatsnew-needed')
+whatsnew_pattern = cl_config.get('whatsnew_pattern', r'docs\/whatsnew\/\d+\.\d+\.rst')
+
 print(f'PR labels: {pr_labels}')
 print()
 
@@ -195,6 +199,21 @@ modified_files = [f.filename for f in pr.get_files()]
 section_dirs = calculate_fragment_paths(config)
 types = config['types'].keys()
 matching_file = check_sections(modified_files, section_dirs)
+
+# Piggyback What's New entry check here.
+if whatsnew_label in pr_labels:
+    whatsnew_matches = re.findall(whatsnew_pattern, '|'.join(modified_filenames))
+    n_whatsnew_matches = len(whatsnew_matches)
+    if n_whatsnew_matches == 0:
+        print(f'"{whatsnew_label}" present but no What\'s New entry; please add one.')
+        sys.exit(1)
+    elif n_whatsnew_matches > 1:
+        print(f'Too many What\'s New entries found: {whatsnew_matches}')
+        sys.exit(1)
+    else:
+        print(f'"{whatsnew_label}" present and {whatsnew_matches[0]} is modified: OK')
+else:
+    print(f'No "{whatsnew_label}" label, skipping What\'s New entry check')
 
 if skip_label and skip_label in pr_labels:
     if matching_file:
