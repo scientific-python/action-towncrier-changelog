@@ -45,7 +45,7 @@ if not cl_config.get('enabled', False):
 pr_author = event['pull_request']['user']['login']
 print(f'PR author: {pr_author}')
 print()
-if pr_author in ('meeseeksmachine', 'gilesbot'):
+if pr_author in ('meeseeksmachine', 'pre-commit-ci[bot]'):
     print(f'Skipping towncrier changelog check for bot "{pr_author}"')
     sys.exit(0)
 
