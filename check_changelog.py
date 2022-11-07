@@ -43,7 +43,7 @@ if not cl_config.get('enabled', False):
 
 # Skip check if it is one of the bots.
 pr_author = event['pull_request']['user']['login']
-if pr_author in ('meeseeksmachine', 'pre-commit-ci'):
+if pr_author in ('meeseeksmachine', 'gilesbot'):
     print(f'Skipping towncrier changelog check for bot "{pr_author}"')
     sys.exit(0)
 
