@@ -18,24 +18,24 @@ jobs:
     name: Check if towncrier change log entry is correct
     runs-on: ubuntu-latest
     steps:
-    - uses: pllim/actions-towncrier-changelog@main
+    - uses: scientific-python/action-towncrier-changelog@0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BOT_USERNAME: astropy-bot
+        BOT_USERNAME: changelog-bot
 ```
 
 Your repository must contain a `pyproject.toml` in the root directory
 with the appropriate configurations. A partial example as follows:
 
 ```
-[tool.astropy-bot]
-    [tool.astropy-bot.towncrier_changelog]
+[tool.changelog-bot]
+    [tool.changelog-bot.towncrier_changelog]
         enabled = true
         verify_pr_number = true
         changelog_skip_label = "no-changelog-entry-needed"
 
 [tool.towncrier]
-    package = "astropy"
+    package = "yourpackagename"
     filename = "CHANGES.rst"
     directory = "docs/changes"
     underlines = "=-^"
@@ -66,12 +66,12 @@ with the appropriate configurations. A partial example as follows:
         path = ""
 
     [[tool.towncrier.section]]
-        name = "astropy.config"
-        path = "config"
+        name = "yourpackagename.subpackage1"
+        path = "subpackage1"
 
     [[tool.towncrier.section]]
-        name = "astropy.constants"
-        path = "constants"
+        name = "yourpackagename.subpackage2"
+        path = "subpackage2"
 
     [[tool.towncrier.section]]
     ...
