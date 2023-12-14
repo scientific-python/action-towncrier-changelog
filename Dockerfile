@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get install -y \
     build-essential \
     python3-pip \
-    python3.11 \
+    python3.10 \
     git \
     && python3 -m pip install --upgrade pip \
     && python3 -m pip install --upgrade setuptools \
