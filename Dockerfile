@@ -1,13 +1,13 @@
 # Container image that runs your code.
 # NOTE: Could speed things up if you use an existing image with all the
 #       deps pre-installed but still not as fast as TypeScript.
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 RUN apt-get update \
     && apt-get install -y \
     build-essential \
     python3-pip \
-    python3.8 \
+    python3.11 \
     git \
     && python3 -m pip install --upgrade pip \
     && python3 -m pip install --upgrade setuptools \
