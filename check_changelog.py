@@ -1,11 +1,13 @@
+import atexit
+import importlib.resources
 import json
 import os
 import re
 import sys
 from collections import OrderedDict
+from contextlib import ExitStack
 from pathlib import Path
 
-import pkg_resources
 from github import Github
 from toml import loads
 
@@ -129,13 +131,17 @@ def parse_toml(config):
     if template.startswith("towncrier:"):
         resource_name = "templates/" + template.split(
             "towncrier:", 1)[1] + ".rst"
-        if not pkg_resources.resource_exists("towncrier", resource_name):
+
+        if not importlib.resources.files("towncrier").joinpath(resource_name).is_file():
             raise KeyError(
                 "Towncrier does not have a template named '%s'."
                 % (template.split("towncrier:", 1)[1],)
             )
 
-        template = pkg_resources.resource_filename("towncrier", resource_name)
+        file_manager = ExitStack()
+        atexit.register(file_manager.close)
+        ref = importlib.resources.files("towncrier") / resource_name
+        template = file_manager.enter_context(importlib.resources.as_file(ref))
     else:
         template = template
 
