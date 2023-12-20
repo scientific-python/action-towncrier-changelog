@@ -206,7 +206,7 @@ pr = baserepo.get_pull(pr_num)
 modified_files = [f.filename for f in pr.get_files()]
 section_dirs = calculate_fragment_paths(config)
 types = config['types'].keys()
-matching_file = check_sections(modified_files, section_dirs)
+matching_files = check_sections(modified_files, section_dirs)
 
 # Piggyback What's New entry check here.
 if whatsnew_label in pr_labels:
@@ -224,7 +224,7 @@ else:
     print(f'No "{whatsnew_label}" label, skipping What\'s New entry check')
 
 if skip_label and skip_label in pr_labels:
-    if matching_file:
+    if matching_files:
         print(f'Changelog exists when "{skip_label}" label is set')
         sys.exit(1)
     else:
@@ -232,7 +232,7 @@ if skip_label and skip_label in pr_labels:
               'label is set')
         sys.exit(0)
 
-if not matching_file:
+if not matching_files:
     print('No changelog file was added in the correct directories for '
           f'PR {pr_num}')
     sys.exit(1)
@@ -244,18 +244,23 @@ def check_changelog_type(types, matching_file):
     return components[1] in types
 
 
-if not check_changelog_type(types, matching_file):
-    print(f'The changelog file that was added for PR {pr_num} is not '
-          f'one of the configured types: {types}')
-    sys.exit(1)
+for matching_file in matching_files:
+    if not check_changelog_type(types, matching_file):
+        print(
+            f'The changelog file {matching_file} that was added for PR {pr_num} is '
+            f'not one of the configured types: {types}'
+        )
+        sys.exit(1)
 
 
 # TODO: Make this a regex to check that the number is in the right place etc.
-if (cl_config.get('verify_pr_number', False) and
-        str(pr_num) not in matching_file):
-    print(f'The number in the changelog file ({matching_file}) does not '
-          f'match this pull request number ({pr_num}).')
+file_names = "\n".join(matching_files)
+if cl_config.get('verify_pr_number', False):
+    if not any(str(pr_num) in matching_file for matching_file in matching_files):
+        print(
+            f"No number in the changelog file(s) match this pull request number "
+            f'({pr_num}):\n{file_names}')
     sys.exit(1)
 
 # Success!
-print(f'Changelog file ({matching_file}) correctly added for PR {pr_num}.')
+print(f'Changelog file correctly added for PR {pr_num}:\n{file_names}')
