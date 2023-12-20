@@ -188,6 +188,7 @@ def check_sections(filenames, sections):
     """Check that a file matches ``<section><issue number>``.
     Otherwise the root dir matches when it shouldn't.
     """
+    files = list()
     for section in sections:
         # Make sure the path ends with a /
         if not section.endswith("/"):
@@ -196,8 +197,8 @@ def check_sections(filenames, sections):
         for fname in filenames:
             match = re.match(pattern, fname)
             if match is not None:
-                return fname
-    return False
+                files.append(fname)
+    return files
 
 
 config = parse_toml(toml_cfg)
