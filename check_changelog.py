@@ -241,13 +241,13 @@ if not matching_files:
 def check_changelog_type(types, matching_file):
     filename = Path(matching_file).name
     components = filename.split(".")
-    return components[1] in types
+    return len(components) > 1 and components[1] in types
 
 
 for matching_file in matching_files:
     if not check_changelog_type(types, matching_file):
         print(
-            f'The changelog file {matching_file} that was added for PR {pr_num} is '
+            f'The changelog file "{matching_file}" that was added for PR {pr_num} is '
             f'not one of the configured types: {types}'
         )
         sys.exit(1)
