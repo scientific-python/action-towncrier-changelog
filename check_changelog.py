@@ -261,7 +261,7 @@ if cl_config.get('verify_pr_number', False):
         print(
             f"No number in the changelog file(s) match this pull request number "
             f'({pr_num}):\n{file_names}')
-    sys.exit(1)
+        sys.exit(1)
 
 # Success!
 print(f'Changelog file correctly added for PR {pr_num}:\n{file_names}')
