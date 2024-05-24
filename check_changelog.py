@@ -257,7 +257,7 @@ for matching_file in matching_files:
 # TODO: Make this a regex to check that the number is in the right place etc.
 file_names = "\n".join(matching_files)
 if cl_config.get('verify_pr_number', False):
-    if not any(str(pr_num) in matching_file for matching_file in matching_files):
+    if not all(str(pr_num) in matching_file for matching_file in matching_files):
         print(
             f"No number in the changelog file(s) match this pull request number "
             f'({pr_num}):\n{file_names}')

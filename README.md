@@ -18,21 +18,24 @@ jobs:
     name: Check if towncrier change log entry is correct
     runs-on: ubuntu-latest
     steps:
-    - uses: scientific-python/action-towncrier-changelog@0.1.1
+    - uses: scientific-python/action-towncrier-changelog@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BOT_USERNAME: changelog-bot
 ```
 
 Your repository must contain a `pyproject.toml` in the root directory
-with the appropriate configurations. A partial example as follows:
+with the appropriate configurations. An example showing all options is:
 
 ```
 [tool.changelog-bot]
     [tool.changelog-bot.towncrier_changelog]
-        enabled = true
-        verify_pr_number = true
-        changelog_skip_label = "no-changelog-entry-needed"
+        enabled = true  # default is false
+        verify_pr_number = true  # default is false
+        changelog_skip_label = "no-changelog-entry-needed"  # default is none
+        changelog_noop_label = "skip-changelog-checks"
+        whatsnew_label = "whatsnew-needed"
+        whatsnew_pattern = '''docs\/whatsnew\/\d+\.\d+\.rst'''
 
 [tool.towncrier]
     package = "yourpackagename"
