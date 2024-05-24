@@ -245,13 +245,16 @@ def check_changelog_type(types, matching_file):
     return len(components) > 1 and components[1] in types
 
 
-for matching_file in matching_files:
-    if not check_changelog_type(types, matching_file):
-        print(
-            f'The changelog file "{matching_file}" that was added for PR {pr_num} is '
-            f'not one of the configured types: {types}'
-        )
-        sys.exit(1)
+bad_files = "\n".join(
+    matching_file for matching_file in matching_files
+    if not check_changelog_type(types, matching_file)
+)
+if bad_files:
+    print(
+        f'The changelog file(s):\n"{bad_files}"in PR {pr_num} must '
+        f'be one of the configured types: {types}'
+    )
+    sys.exit(1)
 
 
 # TODO: Make this a regex to check that the number is in the right place etc.
