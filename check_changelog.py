@@ -251,7 +251,7 @@ bad_files = "\n".join(
 )
 if bad_files:
     print(
-        f'The changelog file(s):\n"{bad_files}"in PR {pr_num} must '
+        f'The changelog file(s):\n\n{bad_files}\nin PR {pr_num} must '
         f'be one of the configured types: {types}'
     )
     sys.exit(1)
