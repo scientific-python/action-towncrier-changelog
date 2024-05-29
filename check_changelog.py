@@ -262,8 +262,8 @@ file_names = "\n".join(matching_files)
 if cl_config.get('verify_pr_number', False):
     if not all(str(pr_num) in matching_file for matching_file in matching_files):
         print(
-            f"Not all number in the changelog file number(s) match this pull request "
-            f"number ({pr_num}):\n{file_names}"
+            f"Not all changelog file number(s) match this pull request number "
+            f"({pr_num}):\n{file_names}"
         )
         sys.exit(1)
 
