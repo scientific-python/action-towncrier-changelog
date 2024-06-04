@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # Weekly Thursday 7AM build
+    # * is a special character in YAML so you have to quote this string
+    - cron: '0 7 * * 4'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install dependencies
+      run: pip install PyGithub toml towncrier flake8 pytest pytest-cov --upgrade
+    - name: Tests
+      run: |
+        flake8 *.py --count
+        pytest --cov=./ --cov-report=xml
+    - name: Upload coverage to codecov
+      uses: codecov/codecov-action@v4
+      with:
+        files: ./coverage.xml
+        verbose: true
