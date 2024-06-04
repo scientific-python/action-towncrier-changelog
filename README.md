@@ -1,5 +1,7 @@
 # GitHub Action for Towncrier Changelog
 
+TODO: CI badges here when we have them.
+
 Check if a change log entry (fragment file) is present. If present, whether
 it is named correctly. If not present, whether it is allowed to be missing.
 Create a `.github/workflows/check_changelog_entry.yml` as follows.
