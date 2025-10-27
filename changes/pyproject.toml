@@ -9,5 +9,6 @@ directory = "changes/"
 [tool.changelog-bot]
 
 [tool.changelog-bot.towncrier_changelog]
+changelog_skip_label = "no-changelog-entry-needed"
 enabled = true
 verify_pr_number = true
