@@ -8,8 +8,8 @@ from collections import OrderedDict
 from contextlib import ExitStack
 from pathlib import Path
 
-from github import Github
-from toml import loads
+from github import Github, Auth
+from tomllib import loads
 
 event_name = os.environ['GITHUB_EVENT_NAME']
 if not event_name.startswith('pull_request'):
@@ -23,15 +23,15 @@ with open(event_jsonfile, encoding='utf-8') as fin:
 
 bot_username = os.environ.get('BOT_USERNAME', 'astropy-bot')
 basereponame = event['pull_request']['base']['repo']['full_name']
-g = Github(os.environ.get('GITHUB_TOKEN'))
+g = Github(auth=Auth.Token(os.environ.get('GITHUB_TOKEN')))
 
 # Grab config from upstream's default branch
 print(f'Bot username: {bot_username}')
 print(f'Base repository: {basereponame}')
 print()
 baserepo = g.get_repo(basereponame)
-pyproject_toml = baserepo.get_contents('pyproject.toml')
-toml_cfg = loads(pyproject_toml.decoded_content.decode('utf-8'))
+pyproject_toml = Path('pyproject.toml').read_text("utf-8")
+toml_cfg = loads(pyproject_toml)
 
 try:
     cl_config = toml_cfg['tool'][bot_username]['towncrier_changelog']
@@ -234,8 +234,9 @@ if skip_label and skip_label in pr_labels:
         sys.exit(0)
 
 if not matching_files:
-    print('No changelog file was added in the correct directories for '
-          f'PR {pr_num}')
+    print("No changelog file was added in the correct directories for "
+          f"PR {pr_num}, looked in {len(section_dirs)} directories:\n"
+          f"{'\n'.join(section_dirs)}")
     sys.exit(1)
 
 
