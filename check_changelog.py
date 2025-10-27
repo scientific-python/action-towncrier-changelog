@@ -8,7 +8,7 @@ from collections import OrderedDict
 from contextlib import ExitStack
 from pathlib import Path
 
-from github import Github
+from github import Github, Auth
 from toml import loads
 
 event_name = os.environ['GITHUB_EVENT_NAME']
@@ -23,15 +23,15 @@ with open(event_jsonfile, encoding='utf-8') as fin:
 
 bot_username = os.environ.get('BOT_USERNAME', 'astropy-bot')
 basereponame = event['pull_request']['base']['repo']['full_name']
-g = Github(os.environ.get('GITHUB_TOKEN'))
+g = Github(auth=Auth.Token(os.environ.get('GITHUB_TOKEN')))
 
 # Grab config from upstream's default branch
 print(f'Bot username: {bot_username}')
 print(f'Base repository: {basereponame}')
 print()
 baserepo = g.get_repo(basereponame)
-pyproject_toml = baserepo.get_contents('pyproject.toml')
-toml_cfg = loads(pyproject_toml.decoded_content.decode('utf-8'))
+pyproject_toml = Path('pyproject.toml').read_text("utf-8")
+toml_cfg = loads(pyproject_toml)
 
 try:
     cl_config = toml_cfg['tool'][bot_username]['towncrier_changelog']
