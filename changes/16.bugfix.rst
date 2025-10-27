@@ -1,1 +1,0 @@
-Fix parsing of TOML by upgrading to Python 3.13 and using tomllib, by Eric Larson.
