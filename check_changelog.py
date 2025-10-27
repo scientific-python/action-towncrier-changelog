@@ -30,7 +30,14 @@ print(f'Bot username: {bot_username}')
 print(f'Base repository: {basereponame}')
 print()
 baserepo = g.get_repo(basereponame)
-pyproject_toml = Path('pyproject.toml').read_text("utf-8")
+pyproject_path = Path('pyproject.toml').resolve(strict=False)
+if not pyproject_path.is_file():
+    print(
+        f"No pyproject.toml found at {pyproject_path}, did you use actions/checkout "
+        "prior to running this action?"
+    )
+    sys.exit(1)
+pyproject_toml = pyproject_path.read_text("utf-8")
 toml_cfg = loads(pyproject_toml)
 
 try:
