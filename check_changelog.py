@@ -9,7 +9,7 @@ from contextlib import ExitStack
 from pathlib import Path
 
 from github import Github, Auth
-from toml import loads
+from tomllib import loads
 
 event_name = os.environ['GITHUB_EVENT_NAME']
 if not event_name.startswith('pull_request'):
