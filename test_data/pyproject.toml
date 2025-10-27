@@ -4,8 +4,7 @@ dev = ["pip", {include-group = "doc"}]
 doc = ["sphinx"]
 
 [tool.towncrier]
-directory = "test_data/changes/dev/"
-filename = "test_data/changes/dev.rst"
+directory = "test_data/dev/"
 
 [tool.changelog-bot]
 
