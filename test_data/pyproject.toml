@@ -6,3 +6,9 @@ doc = ["sphinx"]
 [tool.towncrier]
 directory = "test_data/changes/dev/"
 filename = "test_data/changes/dev.rst"
+
+[tool.changelog-bot]
+
+[tool.changelog-bot.towncrier_changelog]
+enabled = true
+verify_pr_number = false
