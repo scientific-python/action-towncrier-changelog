@@ -6,11 +6,3 @@ doc = ["sphinx"]
 [tool.towncrier]
 directory = "test_data/changes/dev/"
 filename = "test_data/changes/dev.rst"
-issue_format = "`#{issue} <https://github.com/mne-tools/mne-python/pull/{issue}>`__"
-package = "mne"
-title_format = "{version} ({project_date})"
-
-[[tool.towncrier.type]]
-directory = "bugfix"
-name = "Bugfixes"
-showcontent = true
