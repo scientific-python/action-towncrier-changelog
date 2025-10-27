@@ -234,8 +234,9 @@ if skip_label and skip_label in pr_labels:
         sys.exit(0)
 
 if not matching_files:
-    print('No changelog file was added in the correct directories for '
-          f'PR {pr_num}')
+    print("No changelog file was added in the correct directories for "
+          f"PR {pr_num}, looked in {len(section_dirs)} directories:\n"
+          f"{'\n'.join(section_dirs)}")
     sys.exit(1)
 
 
