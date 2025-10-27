@@ -4,10 +4,10 @@ dev = ["pip", {include-group = "doc"}]
 doc = ["sphinx"]
 
 [tool.towncrier]
-directory = "test_data/dev/"
+directory = "changes/"
 
 [tool.changelog-bot]
 
 [tool.changelog-bot.towncrier_changelog]
 enabled = true
-verify_pr_number = false
+verify_pr_number = true
