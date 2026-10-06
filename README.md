@@ -83,7 +83,7 @@ with the appropriate configurations. An example showing all options is:
 
 ## History
 
-This check was originally part of Giles bot written by Stuart Mumford (https://github.com/Cadair)
+This check was originally part of [Baldrick bot](https://github.com/OpenAstronomy/baldrick), used under the terms of the MIT License, contributed by Stuart Mumford (https://github.com/Cadair)
 for SunPy and Astropy. For reasons now forgotten, the check stopped working for Astropy,
 so this standalone workflow was created as a "temporarily workaround" until it could be fixed.
 It was never fixed and has since been removed from Astropy, so now this workflow is permanent
